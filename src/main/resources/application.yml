@@ -1,0 +1,88 @@
+spring:
+  mvc:
+    async:
+      request-timeout: 200000ms
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/info_management?useSSL=false&amp
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource # 设置类型为 DruidDataSource
+      # Druid 自定义配置，对应 DruidDataSource 中的 setting 方法的属性
+    druid:
+      min-idle: 0 # 池中维护的最小空闲连接数，默认为 0 个。
+      max-active: 20 # 池中最大连接数，包括闲置和使用中的连接，默认为 8 个。
+      filter:
+        stat: # 配置 StatFilter ，对应文档 https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_StatFilter
+          log-slow-sql: true # 开启慢查询记录
+          slow-sql-millis: 5000 # 慢 SQL 的标准，单位：毫秒
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 100000ms
+        max-idle: 10
+        min-idle: 3
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin #用户名
+    password: admin #密码
+    virtual-host: /
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+#  邮件
+  mail:
+    protocol: smtp
+    host: smtp.qq.com
+    port: 587
+#    username: 你的邮箱名称
+#    password: 你申请到的密码
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: false
+        debug: false
+        mine:
+          splitlongparameters: false
+    default-encoding: utf-8
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: 127.0.0.1:19200
+    username:
+    password:
+server:
+  port: 9090
+#  servlet:
+#    session:
+#      cookie:
+#        secure: true
+# 配置腾讯存储对象
+tencent:
+#  accessKey: 配置为你自己的云存储对应信息
+#  secretKey: 配置为你自己的云存储对应信息
+#  bucket: 配置为你自己的云存储对应信息
+#  bucketName: 配置为你自己的云存储对应信息
+#  path: 配置为你自己的云存储对应信息
+#  beforePath: image
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.pojo
+  #  config-location: classpath:mybatis-config.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

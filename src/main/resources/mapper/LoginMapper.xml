@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.LoginMapper">
+
+    <resultMap id="getMenu" type="com.example.demo.pojo.login.RoleAndMenu">
+        <result column="route_name" property="name"/>
+        <result column="role" property="role"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="path" property="path"/>
+        <result column="meta" property="meta" typeHandler="com.example.demo.pojo.JsonTypeHandler"/>
+        <result column="id" property="id"/>
+    </resultMap>
+
+    <resultMap id="router" type="com.example.demo.pojo.login.AsyncRouterMap">
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="component" column="component"/>
+        <result property="meta" column="meta" typeHandler="com.example.demo.pojo.JsonTypeHandler"/>
+    </resultMap>
+
+    <select id="getRoleAndMenu" resultMap="getMenu">
+        select * from route_table
+            where id in (
+                    select route_id from route_role_table
+                        where role_id = #{roleId}
+                )
+    </select>
+
+    <select id="getRouter" resultMap="router">
+        select * from async_router_map
+    </select>
+</mapper>
